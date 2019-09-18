@@ -1,0 +1,17 @@
+version: '2'
+
+volumes:
+    jup-notebk-home:
+
+services:
+    notebook:
+        build:
+            context: .
+            dockerfile: notebook.docker
+        image: notebook
+        container_name: nbk
+        ports:
+            - '8009:8009'
+        volumes:
+            - jup-notebk-home:/home/jovyan
+        restart: on-failure

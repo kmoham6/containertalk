@@ -1,0 +1,3 @@
+FROM fedora
+RUN dnf install -y cowsay
+CMD ["cowsay", "-f", "ghostbusters", "Who", "you", "gonna", "call?"]

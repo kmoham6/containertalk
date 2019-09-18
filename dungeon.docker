@@ -1,0 +1,18 @@
+FROM fedora
+
+# Install standard packages...
+RUN dnf -y install curl perl bzip2 ncurses-devel ncurses-compat-libs SDL gtk2 SDL_image mesa-libGLU SDL_ttf 
+
+# Download and install the game...
+RUN curl -kLO http://www.bay12games.com/dwarves/df_44_12_linux.tar.bz2
+RUN tar xjf df_44_12_linux.tar.bz2
+WORKDIR /df_linux
+
+# The game loads the wrong glibc if you leave this file in....
+RUN rm -f libs/libstdc++.so.6
+
+# Only text mode runs from this docker image...
+RUN perl -p -i -e 's/PRINT_MODE:2D/PRINT_MODE:TEXT/g' data/init/init.txt
+
+# Run the game!
+CMD ["bash", "./df"]
